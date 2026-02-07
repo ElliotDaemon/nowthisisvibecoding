@@ -1,8 +1,8 @@
 {
   "v": 2,
-  "ts": 1770434200000,
-  "status": "idle",
-  "statusText": "ready",
+  "ts": 1770434520000,
+  "status": "building",
+  "statusText": "building",
   "messages": [
     {
       "id": "msg_1770433504887",
@@ -15,13 +15,32 @@
       "role": "assistant",
       "content": "Yes! Connection is live.\n\nI just shipped a huge upgrade -- the app now has:\n\n- **Live Preview** area at the top that shows what we're building in real-time\n- **Quick action buttons** -- tap to instantly start a project type\n- **Build animation** with code rain effect and progress bar\n- **Instant preview** via iframe (no page reload needed)\n\nTap one of the quick actions or describe what you want to build. You'll see it appear in the preview above as I code it.",
       "ts": 1770434200000
+    },
+    {
+      "id": "msg_1770434512222",
+      "role": "user",
+      "content": "build me a landing page",
+      "ts": 1770434512222
+    },
+    {
+      "id": "claude_2",
+      "role": "assistant",
+      "content": "On it! Building you a gorgeous landing page. Watch the preview above...",
+      "ts": 1770434520000
     }
   ],
   "files": {},
-  "terminal": [],
+  "terminal": [
+    {"type": "info", "content": "Starting build: Landing Page"},
+    {"type": "cmd", "content": "generating layout and design..."}
+  ],
   "activeFile": null,
+  "buildProgress": {
+    "currentStep": "Designing layout...",
+    "percent": 20,
+    "substep": "hero section + navigation"
+  },
   "previewHtml": null,
   "previewUrl": null,
-  "buildProgress": null,
   "suggestedActions": null
 }
