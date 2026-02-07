@@ -1,6 +1,12 @@
 {
   "v": 1,
-  "ts": 0,
-  "messages": [],
+  "ts": 1770433505247,
+  "messages": [
+    {
+      "id": "msg_1770433504887",
+      "content": "is this working",
+      "ts": 1770433504887
+    }
+  ],
   "lastProcessed": null
 }
