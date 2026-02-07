@@ -1012,7 +1012,10 @@ const GitHub = {
     if (res.status === 404) return null;
     if (!res.ok) throw new Error(`GitHub GET ${res.status}`);
     const data = await res.json();
-    const content = atob(data.content.replace(/\n/g, ''));
+    const binary = atob(data.content.replace(/\n/g, ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const content = new TextDecoder('utf-8').decode(bytes);
     return { content, sha: data.sha };
   },
 
