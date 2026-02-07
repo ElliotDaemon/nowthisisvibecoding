@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vibecodingOS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface2: #1a1a26;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --text-dim: #8888a0;
+    --accent: #7c5cfc;
+    --accent-glow: #7c5cfc44;
+    --accent2: #fc5caa;
+    --accent3: #5cfcd0;
+    --gradient: linear-gradient(135deg, #7c5cfc, #fc5caa, #5cfcd0);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--bg);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* === AMBIENT BACKGROUND === */
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ambient .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    animation: float 20s ease-in-out infinite;
+  }
+  .ambient .orb:nth-child(1) {
+    width: 600px; height: 600px;
+    background: var(--accent);
+    top: -200px; left: -100px;
+    animation-delay: 0s;
+  }
+  .ambient .orb:nth-child(2) {
+    width: 500px; height: 500px;
+    background: var(--accent2);
+    bottom: -150px; right: -100px;
+    animation-delay: -7s;
+  }
+  .ambient .orb:nth-child(3) {
+    width: 400px; height: 400px;
+    background: var(--accent3);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: -14s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.05); }
+    66% { transform: translate(-20px, 30px) scale(0.95); }
+  }
+
+  /* === LAYOUT === */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* === SLIDES === */
+  .slide {
+    display: none;
+    animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .slide.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* === HERO / WELCOME === */
+  .hero {
+    text-align: center;
+    padding: 80px 0 40px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-dim);
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero-badge .pulse {
+    width: 8px; height: 8px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  .hero h1 {
+    font-size: clamp(40px, 8vw, 72px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 24px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto 48px;
+  }
+
+  /* === BUTTONS === */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 36px;
+    border-radius: 14px;
+    border: none;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 0 30px var(--accent-glow), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 50px var(--accent-glow), 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover {
+    background: var(--border);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  .btn-ghost:hover { color: var(--text); }
+  .btn svg { width: 20px; height: 20px; }
+
+  /* === FORM ELEMENTS === */
+  .question-group {
+    margin-bottom: 48px;
+  }
+  .question-label {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .question-sub {
+    font-size: 15px;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 17px;
+    line-height: 1.5;
+    transition: all 0.25s ease;
+    outline: none;
+  }
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+    background: var(--surface2);
+  }
+  input[type="text"]::placeholder, textarea::placeholder {
+    color: #555568;
+  }
+  textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  /* === OPTION CARDS === */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .option-card {
+    padding: 22px 20px;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+    user-select: none;
+  }
+  .option-card:hover {
+    border-color: var(--accent);
+    background: var(--surface2);
+    transform: translateY(-2px);
+  }
+  .option-card.selected {
+    border-color: var(--accent);
+    background: rgba(124, 92, 252, 0.1);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  .option-card .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .option-card .label {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+  .option-card .desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* === VIBE SLIDER === */
+  .vibe-slider-container {
+    padding: 30px 0;
+  }
+  .vibe-slider-track {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 100px;
+    cursor: pointer;
+  }
+  .vibe-slider-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--gradient);
+    transition: width 0.2s ease;
+  }
+  .vibe-slider-thumb {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 0 20px var(--accent-glow);
+    cursor: grab;
+    transition: transform 0.15s ease;
+  }
+  .vibe-slider-thumb:hover { transform: translate(-50%, -50%) scale(1.15); }
+  .vibe-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .vibe-level {
+    text-align: center;
+    font-size: 48px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .vibe-level-label {
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-dim);
+    margin-bottom: 30px;
+  }
+
+  /* === PROGRESS BAR === */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--gradient);
+    z-index: 100;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* === NAVIGATION === */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  /* === KEY SHORTCUTS === */
+  .shortcut-hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+    z-index: 50;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  .shortcut-hint:hover { opacity: 1; }
+  kbd {
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+
+  /* === SUBMIT PAGE === */
+  .summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    margin-bottom: 16px;
+  }
+  .summary-card h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+  .summary-card p {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  /* === THANK YOU === */
+  .checkmark-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+  .checkmark-circle svg {
+    width: 48px;
+    height: 48px;
+    color: white;
+  }
+
+  /* === COUNTER === */
+  .slide-counter {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    z-index: 50;
+  }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 600px) {
+    .options-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 36px; letter-spacing: -1px; }
+    .question-label { font-size: 22px; }
+    .container { padding: 24px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-counter" id="slideCounter"></div>
+
+<!-- ======================== SLIDE 0: WELCOME ======================== -->
+<div class="container">
+  <div class="slide active" data-slide="0">
+    <div class="hero">
+      <div class="hero-badge"><span class="pulse"></span> vibecodingOS v1.0</div>
+      <h1>let's vibe.</h1>
+      <p>I'm Claude, your AI coding partner. Before we build something incredible together, I need to learn a few things about you and what you're dreaming up.</p>
+      <button class="btn btn-primary" onclick="nextSlide()">
+        Start the Vibe
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 1: NAME ======================== -->
+  <div class="slide" data-slide="1">
+    <div class="question-group" style="padding-top: 80px;">
+      <p class="question-label">First things first &mdash; what should I call you?</p>
+      <p class="question-sub">Could be your name, your alias, your gamer tag&hellip; whatever feels right.</p>
+      <input type="text" id="userName" placeholder="Type your name..." autofocus
+             onkeydown="if(event.key==='Enter')nextSlide()">
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Continue</button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 2: PROJECT TYPE ======================== -->
+  <div class="slide" data-slide="2">
+    <div class="question-group" style="padding-top: 60px;">
+      <p class="question-label">What are we building?</p>
+      <p class="question-sub">Pick the category that best describes your vision. You can always pivot later.</p>
+      <div class="options-grid" id="projectType">
+        <div class="option-card" data-value="web-app" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x1f310;</span>
+          <div class="label">Web App</div>
+          <div class="desc">Full-stack or frontend web application</div>
+        </div>
+        <div class="option-card" data-value="cli-tool" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x1f4bb;</span>
+          <div class="label">CLI Tool</div>
+          <div class="desc">Command-line utility or developer tool</div>
+        </div>
+        <div class="option-card" data-value="api" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x26a1;</span>
+          <div class="label">API / Backend</div>
+          <div class="desc">REST, GraphQL, or microservice</div>
+        </div>
+        <div class="option-card" data-value="game" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x1f3ae;</span>
+          <div class="label">Game</div>
+          <div class="desc">Browser game, engine, or simulation</div>
+        </div>
+        <div class="option-card" data-value="mobile" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x1f4f1;</span>
+          <div class="label">Mobile App</div>
+          <div class="desc">iOS, Android, or cross-platform</div>
+        </div>
+        <div class="option-card" data-value="other" onclick="selectOption(this, 'projectType')">
+          <span class="icon">&#x2728;</span>
+          <div class="label">Something Else</div>
+          <div class="desc">Creative, experimental, or unique</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Continue</button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 3: DESCRIBE ======================== -->
+  <div class="slide" data-slide="3">
+    <div class="question-group" style="padding-top: 60px;">
+      <p class="question-label">Describe your vision</p>
+      <p class="question-sub">What's the idea? What problem does it solve? Dream big &mdash; I'll help make it real.</p>
+      <textarea id="projectDesc" placeholder="e.g. A real-time collaborative whiteboard where teams can sketch, annotate, and brainstorm together with AI-powered suggestions..."
+                onkeydown="if(event.key==='Enter' && event.metaKey)nextSlide()"></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Continue</button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 4: TECH PREFS ======================== -->
+  <div class="slide" data-slide="4">
+    <div class="question-group" style="padding-top: 60px;">
+      <p class="question-label">Any tech preferences?</p>
+      <p class="question-sub">Languages, frameworks, or tools you want to use? Leave blank and I'll pick the best stack.</p>
+      <input type="text" id="techPrefs" placeholder="e.g. React, TypeScript, Tailwind, Node.js..."
+             onkeydown="if(event.key==='Enter')nextSlide()">
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Continue</button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 5: VIBE LEVEL ======================== -->
+  <div class="slide" data-slide="5">
+    <div class="question-group" style="padding-top: 60px;">
+      <p class="question-label">Set your vibe level</p>
+      <p class="question-sub">How much creative freedom should I take? Slide right for maximum vibes.</p>
+      <div class="vibe-level" id="vibeValue">5</div>
+      <div class="vibe-level-label" id="vibeLabel">Balanced &mdash; equal parts structure and creativity</div>
+      <div class="vibe-slider-container">
+        <div class="vibe-slider-track" id="vibeTrack">
+          <div class="vibe-slider-fill" id="vibeFill" style="width: 50%"></div>
+          <div class="vibe-slider-thumb" id="vibeThumb" style="left: 50%"></div>
+        </div>
+        <div class="vibe-slider-labels">
+          <span>1 &middot; Precise</span>
+          <span>10 &middot; Full Send</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Continue</button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 6: REVIEW ======================== -->
+  <div class="slide" data-slide="6">
+    <div style="padding-top: 60px;">
+      <p class="question-label" style="margin-bottom: 8px;">Here's the plan</p>
+      <p class="question-sub">Review your answers. Hit Launch when you're ready and I'll start building.</p>
+
+      <div class="summary-card">
+        <h3>You</h3>
+        <p id="summaryName">-</p>
+      </div>
+      <div class="summary-card">
+        <h3>Project Type</h3>
+        <p id="summaryType">-</p>
+      </div>
+      <div class="summary-card">
+        <h3>Vision</h3>
+        <p id="summaryDesc">-</p>
+      </div>
+      <div class="summary-card">
+        <h3>Tech Stack</h3>
+        <p id="summaryTech">-</p>
+      </div>
+      <div class="summary-card">
+        <h3>Vibe Level</h3>
+        <p id="summaryVibe">-</p>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="prevSlide()">&larr; Back</button>
+      <button class="btn btn-primary" onclick="submitForm()" id="launchBtn">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" style="width:20px;height:20px"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 8.41m5.96 5.96a14.926 14.926 0 01-5.84 2.58m0 0a14.926 14.926 0 01-5.96-2.58"/></svg>
+        Launch the Vibe
+      </button>
+    </div>
+  </div>
+
+  <!-- ======================== SLIDE 7: THANK YOU ======================== -->
+  <div class="slide" data-slide="7">
+    <div style="padding-top: 100px; text-align: center;">
+      <div class="checkmark-circle">
+        <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <p class="question-label" style="text-align:center;">We're locked in.</p>
+      <p class="question-sub" style="text-align:center; max-width: 440px; margin: 8px auto 40px;">
+        Your responses have been saved. Head back to the terminal &mdash; I'm about to start building your project.
+      </p>
+      <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 28px; display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--accent3);">
+        vibecodingOS &gt; initializing build sequence...
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="shortcut-hint">
+  Press <kbd>Enter</kbd> to continue &middot; <kbd>&uarr;</kbd><kbd>&darr;</kbd> to navigate
+</div>
+
+<script>
+  // === STATE ===
+  let currentSlide = 0;
+  const totalSlides = 8;
+  const answers = {};
+  const vibeLabels = {
+    1: "Surgical precision, no improvisation",
+    2: "Very structured with minimal creative liberty",
+    3: "Mostly structured, a little creative flair",
+    4: "Structured but open to suggestions",
+    5: "Balanced \u2014 equal parts structure and creativity",
+    6: "Creative with some guardrails",
+    7: "Mostly creative, loose structure",
+    8: "High vibes, lots of creative freedom",
+    9: "Maximum vibes, I trust your instincts",
+    10: "FULL SEND \u2014 surprise me with everything"
+  };
+
+  // === NAVIGATION ===
+  function showSlide(n) {
+    document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector(`[data-slide="${n}"]`);
+    if (target) {
+      target.classList.add('active');
+      const input = target.querySelector('input, textarea');
+      if (input) setTimeout(() => input.focus(), 300);
+    }
+    updateProgress();
+    updateCounter();
+    if (n === 6) populateSummary();
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      collectAnswer();
+      currentSlide++;
+      showSlide(currentSlide);
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      showSlide(currentSlide);
+    }
+  }
+
+  function updateProgress() {
+    const pct = (currentSlide / (totalSlides - 1)) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function updateCounter() {
+    const el = document.getElementById('slideCounter');
+    if (currentSlide === 0 || currentSlide === totalSlides - 1) {
+      el.style.opacity = '0';
+    } else {
+      el.style.opacity = '1';
+      el.textContent = `${currentSlide} / ${totalSlides - 2}`;
+    }
+  }
+
+  // === OPTIONS ===
+  function selectOption(card, group) {
+    const grid = card.parentElement;
+    grid.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    answers[group] = card.dataset.value;
+  }
+
+  // === VIBE SLIDER ===
+  (function initSlider() {
+    const track = document.getElementById('vibeTrack');
+    const fill = document.getElementById('vibeFill');
+    const thumb = document.getElementById('vibeThumb');
+    let dragging = false;
+
+    function setVibe(pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      const val = Math.round(pct / 100 * 9) + 1;
+      fill.style.width = pct + '%';
+      thumb.style.left = pct + '%';
+      document.getElementById('vibeValue').textContent = val;
+      document.getElementById('vibeLabel').textContent = vibeLabels[val];
+      answers.vibeLevel = val;
+    }
+
+    function handleMove(e) {
+      const rect = track.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const pct = ((clientX - rect.left) / rect.width) * 100;
+      setVibe(pct);
+    }
+
+    track.addEventListener('mousedown', e => { dragging = true; handleMove(e); });
+    track.addEventListener('touchstart', e => { dragging = true; handleMove(e); }, { passive: true });
+    document.addEventListener('mousemove', e => { if (dragging) handleMove(e); });
+    document.addEventListener('touchmove', e => { if (dragging) handleMove(e); }, { passive: true });
+    document.addEventListener('mouseup', () => dragging = false);
+    document.addEventListener('touchend', () => dragging = false);
+
+    answers.vibeLevel = 5;
+  })();
+
+  // === COLLECT ===
+  function collectAnswer() {
+    if (currentSlide === 1) answers.name = document.getElementById('userName').value.trim();
+    if (currentSlide === 3) answers.description = document.getElementById('projectDesc').value.trim();
+    if (currentSlide === 4) answers.techPrefs = document.getElementById('techPrefs').value.trim();
+  }
+
+  // === SUMMARY ===
+  function populateSummary() {
+    collectAnswer();
+    const typeLabels = {
+      'web-app': 'Web Application',
+      'cli-tool': 'CLI Tool',
+      'api': 'API / Backend',
+      'game': 'Game',
+      'mobile': 'Mobile App',
+      'other': 'Something Else'
+    };
+    document.getElementById('summaryName').textContent = answers.name || 'Anonymous Viber';
+    document.getElementById('summaryType').textContent = typeLabels[answers.projectType] || 'Not specified';
+    document.getElementById('summaryDesc').textContent = answers.description || 'No description yet';
+    document.getElementById('summaryTech').textContent = answers.techPrefs || "Dealer's choice \u2014 I'll pick the best stack";
+    const vl = answers.vibeLevel || 5;
+    document.getElementById('summaryVibe').textContent = `${vl}/10 \u2014 ${vibeLabels[vl]}`;
+  }
+
+  // === SUBMIT ===
+  function submitForm() {
+    collectAnswer();
+    // Write answers to a hidden element for retrieval
+    const output = document.createElement('pre');
+    output.id = 'vibecodingOutput';
+    output.style.display = 'none';
+    output.textContent = JSON.stringify(answers, null, 2);
+    document.body.appendChild(output);
+
+    // Also save to localStorage
+    localStorage.setItem('vibecoding-answers', JSON.stringify(answers));
+
+    currentSlide = 7;
+    showSlide(currentSlide);
+  }
+
+  // === KEYBOARD NAV ===
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.metaKey && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      nextSlide();
+    }
+    if (e.key === 'ArrowUp' || (e.key === 'Backspace' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA')) {
+      prevSlide();
+    }
+  });
+
+  // Init
+  updateProgress();
+  updateCounter();
+</script>
+
+</body>
+</html>
