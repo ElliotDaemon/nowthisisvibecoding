@@ -1128,6 +1128,7 @@ const UI = {
   addMessage(role, content) {
     const m = { id: 'msg_' + Date.now(), role, content, ts: Date.now() };
     State.messages.push(m);
+    this.saveMessages();
     const container = document.getElementById('chatMessages');
     const div = document.createElement('div');
     div.className = `msg ${role}`;
@@ -1138,6 +1139,21 @@ const UI = {
     container.appendChild(div);
     requestAnimationFrame(() => container.scrollTop = container.scrollHeight);
     return m;
+  },
+
+  saveMessages() {
+    try { localStorage.setItem('vc_messages', JSON.stringify(State.messages)); } catch(e) {}
+  },
+
+  loadMessages() {
+    try {
+      const saved = localStorage.getItem('vc_messages');
+      if (saved) {
+        State.messages = JSON.parse(saved);
+        return true;
+      }
+    } catch(e) {}
+    return false;
   },
 
   showTyping(show) {
@@ -1366,8 +1382,14 @@ const App = {
 
   async init() {
     UI.updateStatus('connected', 'idle');
-    // Add welcome message
-    UI.addMessage('assistant', "Welcome to **vibecoding**. I'm Claude, your AI coding partner.\n\nDescribe what you want to build and I'll start hacking it together. You'll see code appear in the **Code** tab and build output in **Terminal** in real-time.\n\nLet's build something sick. What's the vision?");
+
+    // Restore saved messages or show welcome
+    const hasHistory = UI.loadMessages();
+    if (hasHistory && State.messages.length) {
+      UI.renderMessages();
+    } else {
+      UI.addMessage('assistant', "Welcome to **vibecoding**. I'm Claude, your AI coding partner.\n\nDescribe what you want to build and I'll start hacking it together. You'll see code appear in the **Code** tab and build output in **Terminal** in real-time.\n\nLet's build something sick. What's the vision?");
+    }
 
     // Start polling
     this.startPolling();
@@ -1407,7 +1429,7 @@ const App = {
             hasNew = true;
           }
         });
-        if (hasNew) UI.renderMessages();
+        if (hasNew) { UI.renderMessages(); UI.saveMessages(); }
       }
 
       // Update files

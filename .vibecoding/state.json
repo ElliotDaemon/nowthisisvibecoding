@@ -1,9 +1,15 @@
 {
   "v": 1,
-  "ts": 1770433550000,
+  "ts": 1770433600000,
   "status": "idle",
   "statusText": "ready",
   "messages": [
+    {
+      "id": "msg_1770433504887",
+      "role": "user",
+      "content": "is this working",
+      "ts": 1770433504887
+    },
     {
       "id": "claude_1",
       "role": "assistant",
