@@ -3,148 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Flux - Ship faster with AI</title>
+<title>10/10 Cannabis — Premium Cannabis</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:#09090b;color:#fafafa;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:#0a0a0a;color:#f5f0eb;overflow-x:hidden}
 
 /* Nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(9,9,11,.8);backdrop-filter:blur(12px);border-bottom:1px solid #1a1a2e}
-.logo{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;gap:24px;font-size:14px;color:#a1a1aa}
-.nav-links a{color:inherit;text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:#fff}
-.nav-cta{padding:8px 20px;border-radius:8px;background:#8b5cf6;color:#fff;font-size:13px;font-weight:600;border:none;cursor:pointer;transition:all .2s}
-.nav-cta:hover{background:#7c3aed;transform:translateY(-1px)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;letter-spacing:-1px}
+.nav-logo span{color:#8B6914}
+.nav-links{display:flex;gap:28px;font-size:13px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;color:rgba(245,240,235,.5)}
+.nav-links a{color:inherit;text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:#C9A94E}
+.nav-cta{padding:10px 24px;border-radius:100px;background:linear-gradient(135deg,#8B6914,#C9A94E);color:#0a0a0a;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,169,78,.3)}
 
 /* Hero */
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,.15),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);pointer-events:none}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:100px;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);font-size:12px;font-weight:500;color:#a78bfa;margin-bottom:32px;animation:fadeUp .6s ease}
-.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{font-size:clamp(36px,8vw,72px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:24px;animation:fadeUp .6s ease .1s both}
-.hero h1 .gradient{background:linear-gradient(135deg,#8b5cf6,#ec4899,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{font-size:clamp(16px,2.5vw,20px);color:#a1a1aa;max-width:560px;line-height:1.6;margin-bottom:40px;animation:fadeUp .6s ease .2s both}
-.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .6s ease .3s both}
-.btn-primary{padding:14px 32px;border-radius:12px;background:#8b5cf6;color:#fff;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:all .25s;box-shadow:0 0 30px rgba(139,92,246,.3)}
-.btn-primary:hover{background:#7c3aed;transform:translateY(-2px);box-shadow:0 0 50px rgba(139,92,246,.4)}
-.btn-secondary{padding:14px 32px;border-radius:12px;background:transparent;color:#fff;font-size:16px;font-weight:600;border:1px solid #27272a;cursor:pointer;transition:all .25s}
-.btn-secondary:hover{border-color:#8b5cf6;background:rgba(139,92,246,.05)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero::before{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(139,105,20,.12),transparent 65%);top:-250px;left:50%;transform:translateX(-50%);pointer-events:none}
+.hero::after{content:'';position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(201,169,78,.06),transparent 70%);bottom:-100px;right:-100px;pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:100px;background:rgba(201,169,78,.08);border:1px solid rgba(201,169,78,.15);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#C9A94E;margin-bottom:40px;animation:fadeUp .8s ease}
+.hero-tag .leaf{font-size:14px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,10vw,88px);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:8px;animation:fadeUp .8s ease .1s both}
+.hero .brand-accent{background:linear-gradient(135deg,#8B6914,#C9A94E,#E8D48B,#C9A94E);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:fadeUp .8s ease .1s both,goldShimmer 4s ease-in-out infinite}
+@keyframes goldShimmer{0%,100%{background-position:0% center}50%{background-position:200% center}}
+.hero-sub{font-size:clamp(15px,2.5vw,20px);color:rgba(245,240,235,.45);max-width:500px;line-height:1.7;margin:28px auto 44px;font-weight:300;animation:fadeUp .8s ease .2s both}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s ease .3s both}
+.btn-gold{padding:16px 40px;border-radius:100px;background:linear-gradient(135deg,#8B6914,#C9A94E);color:#0a0a0a;font-size:14px;font-weight:700;letter-spacing:.5px;border:none;cursor:pointer;transition:all .3s;box-shadow:0 4px 25px rgba(139,105,20,.25)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(139,105,20,.4)}
+.btn-outline{padding:16px 40px;border-radius:100px;background:transparent;color:#f5f0eb;font-size:14px;font-weight:500;border:1px solid rgba(255,255,255,.12);cursor:pointer;transition:all .3s}
+.btn-outline:hover{border-color:#C9A94E;color:#C9A94E;background:rgba(201,169,78,.04)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+/* Divider */
+.gold-line{width:60px;height:1px;background:linear-gradient(90deg,transparent,#C9A94E,transparent);margin:0 auto}
+
+/* Featured Products */
+.products{padding:100px 24px;max-width:1000px;margin:0 auto}
+.section-tag{display:block;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#C9A94E;text-align:center;margin-bottom:16px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-weight:900;letter-spacing:-1px;text-align:center;margin-bottom:16px}
+.section-sub{font-size:15px;color:rgba(245,240,235,.4);text-align:center;max-width:460px;margin:0 auto 56px;line-height:1.6;font-weight:300}
+.product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.product-card{position:relative;border-radius:20px;background:linear-gradient(145deg,#111,#0d0d0d);border:1px solid rgba(255,255,255,.05);overflow:hidden;transition:all .4s;cursor:pointer}
+.product-card:hover{border-color:rgba(201,169,78,.2);transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.product-img{height:240px;background:linear-gradient(145deg,#151510,#0f0f0a);display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+.product-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 80%,rgba(139,105,20,.08),transparent 60%)}
+.product-info{padding:24px}
+.product-strain{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#C9A94E;margin-bottom:6px}
+.product-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.product-desc{font-size:13px;color:rgba(245,240,235,.4);line-height:1.6;margin-bottom:16px}
+.product-meta{display:flex;align-items:center;justify-content:space-between}
+.product-thc{font-size:12px;font-weight:600;color:rgba(245,240,235,.6);letter-spacing:.5px}
+.product-price{font-size:18px;font-weight:700;color:#C9A94E}
+
+/* About / Story */
+.story{padding:100px 24px;position:relative}
+.story::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(139,105,20,.06),transparent 70%);top:0;left:-200px;pointer-events:none}
+.story-content{max-width:680px;margin:0 auto;text-align:center}
+.story-quote{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,36px);font-weight:400;font-style:italic;line-height:1.5;letter-spacing:-.5px;margin:32px 0}
+.story-quote span{color:#C9A94E}
+.story-author{font-size:13px;color:rgba(245,240,235,.35);letter-spacing:1px;text-transform:uppercase;font-weight:500}
 
 /* Stats */
-.stats{display:flex;gap:48px;justify-content:center;padding:60px 24px;border-top:1px solid #1a1a2e;border-bottom:1px solid #1a1a2e;margin:0 24px}
+.stats{display:flex;gap:48px;justify-content:center;padding:80px 24px;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)}
 .stat{text-align:center}
-.stat-num{font-size:36px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#8b5cf6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat-label{font-size:13px;color:#71717a;margin-top:4px}
+.stat-num{font-family:'Playfair Display',serif;font-size:clamp(32px,6vw,52px);font-weight:900;letter-spacing:-1px;background:linear-gradient(135deg,#8B6914,#C9A94E,#E8D48B);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:11px;color:rgba(245,240,235,.35);margin-top:6px;letter-spacing:1.5px;text-transform:uppercase;font-weight:500}
 
-/* Features */
-.features{padding:100px 24px;max-width:960px;margin:0 auto}
-.features-header{text-align:center;margin-bottom:64px}
-.features-header h2{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
-.features-header p{font-size:16px;color:#71717a;max-width:480px;margin:0 auto;line-height:1.6}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
-.feature-card{padding:28px;border-radius:16px;background:#111118;border:1px solid #1a1a2e;transition:all .3s}
-.feature-card:hover{border-color:#8b5cf6;transform:translateY(-4px);box-shadow:0 8px 30px rgba(139,92,246,.1)}
-.feature-icon{width:48px;height:48px;border-radius:12px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
-.feature-card h3{font-size:17px;font-weight:700;margin-bottom:8px}
-.feature-card p{font-size:14px;color:#71717a;line-height:1.6}
+/* Experience */
+.experience{padding:100px 24px;max-width:1000px;margin:0 auto}
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}
+.exp-card{padding:32px;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);transition:all .3s}
+.exp-card:hover{border-color:rgba(201,169,78,.15);background:rgba(201,169,78,.03)}
+.exp-icon{width:48px;height:48px;border-radius:12px;background:rgba(201,169,78,.08);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.exp-card h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:10px}
+.exp-card p{font-size:13px;color:rgba(245,240,235,.4);line-height:1.7}
 
 /* CTA */
-.cta{text-align:center;padding:100px 24px;position:relative}
-.cta::before{content:'';position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(236,72,153,.08),transparent 70%);bottom:-200px;left:50%;transform:translateX(-50%);pointer-events:none}
-.cta h2{font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
-.cta p{font-size:16px;color:#71717a;max-width:440px;margin:0 auto 32px;line-height:1.6}
+.cta{text-align:center;padding:120px 24px;position:relative}
+.cta::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(139,105,20,.08),transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta h2{font-family:'Playfair Display',serif;font-size:clamp(28px,6vw,52px);font-weight:900;letter-spacing:-1px;margin-bottom:20px;line-height:1.1}
+.cta p{font-size:15px;color:rgba(245,240,235,.4);max-width:420px;margin:0 auto 40px;line-height:1.7;font-weight:300}
+
+/* Age gate banner */
+.age-note{text-align:center;padding:12px;font-size:10px;color:rgba(245,240,235,.2);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(255,255,255,.04)}
 
 /* Footer */
-footer{padding:40px 24px;border-top:1px solid #1a1a2e;text-align:center;font-size:13px;color:#52525b}
+footer{padding:48px 24px 24px;text-align:center}
+.footer-logo{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;margin-bottom:16px}
+.footer-logo span{color:#C9A94E}
+.footer-links{display:flex;gap:24px;justify-content:center;font-size:12px;color:rgba(245,240,235,.3);margin-bottom:24px;flex-wrap:wrap}
+.footer-links a{color:inherit;text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:#C9A94E}
+.footer-copy{font-size:11px;color:rgba(245,240,235,.15);letter-spacing:.5px}
 
 @media(max-width:600px){
   .nav-links{display:none}
-  .stats{gap:24px;flex-wrap:wrap}
+  .stats{gap:20px;flex-wrap:wrap}
   .hero{padding:100px 20px 60px}
+  .product-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">flux</div>
+  <div class="nav-logo">10<span>/</span>10</div>
   <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#story">Story</a>
+    <a href="#experience">Experience</a>
   </div>
-  <button class="nav-cta">Get Started</button>
+  <button class="nav-cta">Shop Now</button>
 </nav>
 
 <section class="hero">
-  <div class="hero-badge"><span class="dot"></span> Now in public beta</div>
-  <h1>Ship products<br><span class="gradient">10x faster</span></h1>
-  <p>Flux is the AI-powered development platform that turns your ideas into production-ready code in minutes, not months.</p>
+  <div class="hero-tag"><span class="leaf">&#x1F33F;</span> Premium Cannabis</div>
+  <h1>10<span class="brand-accent">/</span>10</h1>
+  <p class="hero-sub">Curated strains. Uncompromising quality. Every product is a perfect score — because you deserve nothing less.</p>
   <div class="hero-buttons">
-    <button class="btn-primary">Start Building Free</button>
-    <button class="btn-secondary">Watch Demo</button>
+    <button class="btn-gold">Explore Strains</button>
+    <button class="btn-outline">Our Story</button>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<section class="products" id="products">
+  <span class="section-tag">The Collection</span>
+  <h2 class="section-title">Featured Strains</h2>
+  <p class="section-sub">Hand-selected, small-batch cultivars grown with precision and care.</p>
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-img">&#x1F33F;</div>
+      <div class="product-info">
+        <div class="product-strain">Sativa Dominant</div>
+        <div class="product-name">Golden Hour</div>
+        <p class="product-desc">Bright citrus notes with an uplifting, creative euphoria. Perfect for daytime inspiration.</p>
+        <div class="product-meta">
+          <span class="product-thc">THC 28% &#x2022; CBD 1%</span>
+          <span class="product-price">$55</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">&#x1F343;</div>
+      <div class="product-info">
+        <div class="product-strain">Indica</div>
+        <div class="product-name">Midnight Velvet</div>
+        <p class="product-desc">Deep berry undertones with a smooth, full-body relaxation. The ultimate wind-down.</p>
+        <div class="product-meta">
+          <span class="product-thc">THC 32% &#x2022; CBD 2%</span>
+          <span class="product-price">$62</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-img">&#x2728;</div>
+      <div class="product-info">
+        <div class="product-strain">Hybrid</div>
+        <div class="product-name">Perfect Ten</div>
+        <p class="product-desc">Our signature strain. Balanced euphoria meets calm clarity — a true 10/10 experience.</p>
+        <div class="product-meta">
+          <span class="product-thc">THC 30% &#x2022; CBD 3%</span>
+          <span class="product-price">$68</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="story-content">
+    <div class="gold-line"></div>
+    <p class="story-quote">"We don't settle for anything less than <span>perfect</span>. Every harvest, every cure, every product — held to the same standard. <span>10/10</span>, every time."</p>
+    <p class="story-author">— The 10/10 Founders</p>
   </div>
 </section>
 
 <div class="stats">
-  <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Developers</div></div>
-  <div class="stat"><div class="stat-num">2M+</div><div class="stat-label">Projects Built</div></div>
-  <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime</div></div>
-  <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">Rating</div></div>
+  <div class="stat"><div class="stat-num">10/10</div><div class="stat-label">Quality Score</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Organic</div></div>
+  <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Strains</div></div>
+  <div class="stat"><div class="stat-num">24K+</div><div class="stat-label">Happy Customers</div></div>
 </div>
 
-<section class="features" id="features">
-  <div class="features-header">
-    <h2>Everything you need</h2>
-    <p>From idea to deployment, Flux handles the entire development lifecycle.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon">&#x26A1;</div>
-      <h3>AI Code Generation</h3>
-      <p>Describe what you want in plain English. Our AI writes clean, production-ready code instantly.</p>
+<section class="experience" id="experience">
+  <span class="section-tag">The 10/10 Difference</span>
+  <h2 class="section-title">Why Choose Us</h2>
+  <p class="section-sub">From seed to sale, every step is intentional.</p>
+  <div class="exp-grid">
+    <div class="exp-card">
+      <div class="exp-icon">&#x1F331;</div>
+      <h3>Craft Grown</h3>
+      <p>Small-batch cultivation with meticulous attention to genetics, soil, and environment. No shortcuts.</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">&#x1F504;</div>
-      <h3>Live Preview</h3>
-      <p>See changes in real-time as they happen. No build steps, no waiting, no refreshing.</p>
+    <div class="exp-card">
+      <div class="exp-icon">&#x1F52C;</div>
+      <h3>Lab Tested</h3>
+      <p>Every batch independently tested for potency, purity, and terpene profile. Full transparency.</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">&#x1F680;</div>
-      <h3>One-Click Deploy</h3>
-      <p>Deploy to production with a single click. SSL, CDN, and scaling handled automatically.</p>
+    <div class="exp-card">
+      <div class="exp-icon">&#x1F3AF;</div>
+      <h3>Curated Selection</h3>
+      <p>We only carry strains that meet our 10/10 standard. If it's not perfect, it doesn't make the cut.</p>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">&#x1F46B;</div>
-      <h3>Team Collaboration</h3>
-      <p>Work together in real-time. Share projects, review code, and ship as a team.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">&#x1F512;</div>
-      <h3>Enterprise Security</h3>
-      <p>SOC2 compliant, end-to-end encryption, and fine-grained access controls.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">&#x1F4CA;</div>
-      <h3>Built-in Analytics</h3>
-      <p>Track performance, monitor errors, and understand your users out of the box.</p>
+    <div class="exp-card">
+      <div class="exp-icon">&#x1F30D;</div>
+      <h3>Sustainably Sourced</h3>
+      <p>Eco-conscious packaging, renewable energy operations, and a commitment to the planet.</p>
     </div>
   </div>
 </section>
 
 <section class="cta">
-  <h2>Ready to ship faster?</h2>
-  <p>Join thousands of developers building the future with Flux. Free to start, no credit card required.</p>
-  <button class="btn-primary">Get Started for Free</button>
+  <h2>Ready for a<br>perfect <span style="color:#C9A94E">10</span>?</h2>
+  <p>Explore our collection and discover why thousands choose 10/10 as their go-to cannabis brand.</p>
+  <button class="btn-gold">Shop the Collection</button>
 </section>
 
+<div class="age-note">Must be 21+ to purchase. Please consume responsibly.</div>
+
 <footer>
-  &copy; 2026 Flux. Built with vibecoding.
+  <div class="footer-logo">10<span>/</span>10</div>
+  <div class="footer-links">
+    <a href="#">Products</a>
+    <a href="#">About</a>
+    <a href="#">Locations</a>
+    <a href="#">Contact</a>
+    <a href="#">FAQ</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 10/10 Cannabis. All rights reserved. Licensed &amp; compliant.</p>
 </footer>
 
 </body>
