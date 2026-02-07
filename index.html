@@ -41,6 +41,11 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
 /* ===== APP SHELL ===== */
 #app { display:flex; flex-direction:column; height:100dvh; }
 
+/* ===== RECONNECT BANNER ===== */
+.reconnect-bar { position:fixed; top:0; left:0; right:0; z-index:500; padding:6px 14px; padding-top:calc(6px + var(--safe-t)); background:rgba(239,68,68,.92); backdrop-filter:blur(8px); color:#fff; font-size:12px; font-weight:600; text-align:center; display:none; }
+.reconnect-bar.on { display:block; animation:slideDown .3s ease; }
+@keyframes slideDown { from{transform:translateY(-100%)} to{transform:translateY(0)} }
+
 /* ===== TOPBAR ===== */
 .topbar { display:flex; align-items:center; justify-content:space-between; padding:10px 14px; padding-top:calc(10px + var(--safe-t)); background:var(--surface); border-bottom:1px solid var(--border); flex-shrink:0; z-index:50; }
 .topbar-brand { display:flex; align-items:center; gap:8px; }
@@ -57,33 +62,64 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
 .topbar-btn svg { width:16px; height:16px; }
 
 /* ===== PREVIEW AREA ===== */
-.preview-area { flex:1; position:relative; background:#000; overflow:hidden; min-height:0; }
-.preview-iframe { width:100%; height:100%; border:none; background:#fff; }
-.preview-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); gap:16px; text-align:center; padding:32px; }
-.preview-placeholder.hidden { display:none; }
+.preview-area { flex:1; position:relative; background:#000; overflow:hidden; min-height:0; transition:all .3s ease; }
+.preview-iframe { width:100%; height:100%; border:none; background:#fff; opacity:0; transition:opacity .4s ease; }
+.preview-iframe.loaded { opacity:1; }
+.preview-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); gap:16px; text-align:center; padding:32px; transition:opacity .3s ease; }
+.preview-placeholder.hidden { opacity:0; pointer-events:none; }
 .pp-icon { width:72px; height:72px; border-radius:20px; background:var(--gradient); display:flex; align-items:center; justify-content:center; margin-bottom:8px; box-shadow:0 0 60px var(--accent-glow); }
 .pp-icon svg { width:36px; height:36px; color:#fff; }
 .pp-title { font-size:22px; font-weight:800; letter-spacing:-.5px; }
 .pp-sub { font-size:14px; color:var(--text-dim); line-height:1.5; max-width:280px; }
 
+/* Preview action buttons */
+.preview-actions { position:absolute; top:8px; right:8px; z-index:5; display:none; gap:6px; }
+.preview-actions.on { display:flex; }
+.prev-btn { width:34px; height:34px; border-radius:9px; border:1px solid rgba(42,42,58,.6); background:rgba(17,17,24,.7); backdrop-filter:blur(8px); color:var(--text-dim); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .15s; }
+.prev-btn:active { transform:scale(.88); background:var(--accent-dim); }
+.prev-btn svg { width:16px; height:16px; }
+
+/* Fullscreen preview */
+.preview-area.fullscreen { position:fixed; inset:0; z-index:100; min-height:100dvh; border-radius:0; }
+.preview-area.fullscreen .fullscreen-toolbar { display:flex; }
+
+.fullscreen-toolbar { display:none; position:absolute; top:0; left:0; right:0; z-index:6; align-items:center; justify-content:space-between; padding:10px 14px; padding-top:calc(10px + var(--safe-t)); background:rgba(9,9,15,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+.fs-title { font-size:12px; font-weight:600; color:var(--text-dim); font-family:'JetBrains Mono',monospace; letter-spacing:.5px; }
+
+/* Loading skeleton */
+.preview-skeleton { position:absolute; inset:0; background:var(--bg); display:none; padding:20px; overflow:hidden; }
+.preview-skeleton.on { display:block; }
+.sk-bar { border-radius:6px; background:linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%); background-size:200% 100%; animation:shimmer 1.5s ease-in-out infinite; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.sk-nav { height:40px; margin-bottom:24px; border-radius:8px; }
+.sk-hero-t { height:28px; width:60%; margin:0 auto 12px; }
+.sk-hero-s { height:14px; width:80%; margin:0 auto 8px; }
+.sk-hero-b { height:42px; width:40%; margin:24px auto 0; border-radius:10px; }
+.sk-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:32px; }
+.sk-card { height:100px; border-radius:12px; }
+
 /* Build overlay */
-.build-overlay { position:absolute; inset:0; z-index:10; background:rgba(9,9,15,.92); backdrop-filter:blur(8px); display:none; flex-direction:column; align-items:center; justify-content:center; gap:24px; padding:32px; }
+.build-overlay { position:absolute; inset:0; z-index:10; background:rgba(9,9,15,.92); backdrop-filter:blur(8px); display:none; flex-direction:column; align-items:center; justify-content:center; gap:24px; padding:32px; transition:opacity .4s ease; }
 .build-overlay.active { display:flex; }
-.build-spinner { width:56px; height:56px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--accent); animation:spin .8s linear infinite; }
+.build-overlay.fade-out { opacity:0; }
+.build-spinner { width:56px; height:56px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--accent); animation:spin .8s linear infinite; position:relative; }
+.build-spinner::after { content:''; position:absolute; inset:6px; border-radius:50%; border:2px solid transparent; border-top-color:var(--pink); animation:spin 1.2s linear infinite reverse; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .build-step { font-size:15px; font-weight:600; color:var(--text); text-align:center; animation:fadeStep .4s ease; }
 @keyframes fadeStep { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-.build-substep { font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; }
-.build-progress { width:200px; height:4px; background:var(--surface2); border-radius:100px; overflow:hidden; }
-.build-progress-fill { height:100%; background:var(--gradient); border-radius:100px; transition:width .5s cubic-bezier(.16,1,.3,1); }
+.build-substep { font-size:12px; color:var(--text-dim); font-family:'JetBrains Mono',monospace; min-height:16px; }
+.build-progress { width:220px; height:4px; background:var(--surface2); border-radius:100px; overflow:hidden; }
+.build-progress-fill { height:100%; background:var(--gradient); border-radius:100px; transition:width .5s cubic-bezier(.16,1,.3,1); width:0%; }
+.build-pct { font-size:11px; color:var(--text-muted); font-weight:600; font-family:'JetBrains Mono',monospace; }
 
-/* Code rain effect behind build overlay */
-.code-rain { position:absolute; inset:0; overflow:hidden; opacity:.08; pointer-events:none; }
+/* Code rain effect */
+.code-rain { position:absolute; inset:0; overflow:hidden; opacity:.07; pointer-events:none; }
 .code-rain span { position:absolute; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--accent); white-space:nowrap; animation:rain linear infinite; }
 @keyframes rain { from{transform:translateY(-100%)} to{transform:translateY(100vh)} }
 
 /* ===== BOTTOM PANEL ===== */
-.bottom-panel { height:var(--panel-h); min-height:200px; max-height:55vh; display:flex; flex-direction:column; border-top:1px solid var(--border); background:var(--surface); flex-shrink:0; z-index:20; }
+.bottom-panel { height:var(--panel-h); min-height:200px; max-height:55vh; display:flex; flex-direction:column; border-top:1px solid var(--border); background:var(--surface); flex-shrink:0; z-index:20; transition:height .3s ease; }
+.bottom-panel.collapsed { height:0; min-height:0; overflow:hidden; border-top:none; }
 
 /* Panel tabs */
 .panel-tabs { display:flex; border-bottom:1px solid var(--border); flex-shrink:0; }
@@ -140,6 +176,7 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
 .chat-input::placeholder { color:var(--text-muted); }
 .send-btn { width:40px; height:40px; border-radius:10px; border:none; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all .15s; }
 .send-btn:active { transform:scale(.88); }
+.send-btn:disabled { opacity:.4; }
 .send-btn svg { width:18px; height:18px; }
 
 /* ===== CODE VIEW ===== */
@@ -234,6 +271,7 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
 
 <div class="ambient"><i></i><i></i></div>
 <div class="toasts" id="toasts"></div>
+<div class="reconnect-bar" id="reconnBar">Connection lost. Reconnecting...</div>
 
 <!-- ONBOARDING -->
 <div class="onboarding" id="onboarding">
@@ -281,17 +319,49 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
   <!-- Preview Area -->
   <div class="preview-area" id="previewArea">
     <iframe class="preview-iframe" id="previewFrame" sandbox="allow-scripts allow-same-origin" style="display:none;"></iframe>
+
+    <!-- Preview action buttons -->
+    <div class="preview-actions" id="previewActions">
+      <button class="prev-btn" onclick="App.refreshPreview()" title="Refresh"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h4.586M20 20v-5h-4.586M4.929 9A8 8 0 0119.07 9M19.071 15A8 8 0 014.93 15"/></svg></button>
+      <button class="prev-btn" onclick="App.toggleFullscreen()" title="Fullscreen"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"/></svg></button>
+    </div>
+
+    <!-- Fullscreen toolbar (visible only in fullscreen mode) -->
+    <div class="fullscreen-toolbar">
+      <span class="fs-title">PREVIEW</span>
+      <button class="prev-btn" onclick="App.toggleFullscreen()" title="Exit fullscreen"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+
     <div class="preview-placeholder" id="previewPlaceholder">
       <div class="pp-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg></div>
       <div class="pp-title">What shall we build?</div>
       <div class="pp-sub">Describe your idea below or tap a quick action to get started. You'll see it come to life right here.</div>
     </div>
+
+    <!-- Loading skeleton (shown during builds) -->
+    <div class="preview-skeleton" id="previewSkeleton">
+      <div class="sk-bar sk-nav"></div>
+      <div style="margin-top:40px">
+        <div class="sk-bar sk-hero-t"></div>
+        <div class="sk-bar sk-hero-s"></div>
+        <div class="sk-bar sk-hero-s" style="width:60%"></div>
+        <div class="sk-bar sk-hero-b"></div>
+      </div>
+      <div class="sk-grid">
+        <div class="sk-bar sk-card"></div>
+        <div class="sk-bar sk-card" style="animation-delay:.15s"></div>
+        <div class="sk-bar sk-card" style="animation-delay:.3s"></div>
+        <div class="sk-bar sk-card" style="animation-delay:.45s"></div>
+      </div>
+    </div>
+
     <div class="build-overlay" id="buildOverlay">
       <div class="code-rain" id="codeRain"></div>
       <div class="build-spinner"></div>
       <div class="build-step" id="buildStep">Setting up project...</div>
       <div class="build-substep" id="buildSubstep"></div>
-      <div class="build-progress"><div class="build-progress-fill" id="buildFill" style="width:0%"></div></div>
+      <div class="build-progress"><div class="build-progress-fill" id="buildFill"></div></div>
+      <div class="build-pct" id="buildPct"></div>
     </div>
   </div>
 
@@ -313,7 +383,7 @@ html, body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg);
         <div class="chat-input-area">
           <div class="chat-input-row">
             <textarea class="chat-input" id="chatIn" placeholder="Describe what to build..." rows="1" oninput="UI.grow(this)"></textarea>
-            <button class="send-btn" onclick="App.send()"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg></button>
+            <button class="send-btn" id="sendBtn" onclick="App.send()"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg></button>
           </div>
         </div>
       </div>
@@ -369,7 +439,8 @@ const C = {
   branch:'claude/interactive-web-interface-rB0iQ',
   stateFile:'.vibecoding/state.json', inputFile:'.vibecoding/input.json',
   previewBase:'https://raw.githack.com/ElliotDaemon/nowthisisvibecoding/claude/interactive-web-interface-rB0iQ/',
-  pollMs:4000, api:'https://api.github.com',
+  pollMs:4000, pollFastMs:2000, pollMaxMs:32000,
+  api:'https://api.github.com',
 };
 
 // ===== GITHUB =====
@@ -401,7 +472,7 @@ const GH = {
 };
 
 // ===== STATE =====
-const S = { messages:[], files:{}, terminal:[], status:'idle', statusText:'', activeFile:null, lastTs:0, connected:false, readOnly:false, previewHtml:null, previewUrl:null, actions:[] };
+const S = { messages:[], files:{}, terminal:[], status:'idle', statusText:'', activeFile:null, lastTs:0, connected:false, readOnly:false, previewHtml:null, previewUrl:null, actions:[], hasPreview:false };
 
 // ===== DEFAULT QUICK ACTIONS =====
 const DEFAULT_ACTIONS = [
@@ -517,21 +588,38 @@ const UI = {
 
   showBuild(on,step,pct,sub){
     const o=document.getElementById('buildOverlay');
+    const sk=document.getElementById('previewSkeleton');
     if(on){
+      o.classList.remove('fade-out');
       o.classList.add('active');
+      sk.classList.add('on');
       if(step) document.getElementById('buildStep').textContent=step;
       if(sub!==undefined) document.getElementById('buildSubstep').textContent=sub;
-      if(pct!==undefined) document.getElementById('buildFill').style.width=pct+'%';
-    } else { o.classList.remove('active'); }
+      if(pct!==undefined){
+        document.getElementById('buildFill').style.width=pct+'%';
+        document.getElementById('buildPct').textContent=pct+'%';
+      }
+    } else {
+      if(o.classList.contains('active')){
+        // Smooth fade-out transition
+        o.classList.add('fade-out');
+        setTimeout(()=>{ o.classList.remove('active','fade-out'); },400);
+      }
+      sk.classList.remove('on');
+    }
   },
 
   showPreview(html,url){
-    const frame=document.getElementById('previewFrame'), ph=document.getElementById('previewPlaceholder');
+    const frame=document.getElementById('previewFrame'), ph=document.getElementById('previewPlaceholder'), acts=document.getElementById('previewActions');
+    frame.classList.remove('loaded');
+    frame.onload=()=>{ frame.classList.add('loaded'); };
     if(html){
       frame.srcdoc=html; frame.style.display='block'; ph.classList.add('hidden');
+      acts.classList.add('on'); S.hasPreview=true;
     } else if(url){
       frame.src=url+(url.includes('?')?'&':'?')+'_t='+Date.now();
       frame.style.display='block'; ph.classList.add('hidden');
+      acts.classList.add('on'); S.hasPreview=true;
     }
   },
 
@@ -604,6 +692,10 @@ function initCodeRain(){
 // ===== MAIN APP =====
 const App = {
   timer:null,
+  pollInterval:C.pollMs,
+  errCount:0,
+  isFullscreen:false,
+  sending:false,
 
   init(){
     UI.setStatus('idle','ready');
@@ -618,8 +710,23 @@ const App = {
     UI.renderActions(S.actions.length?S.actions:DEFAULT_ACTIONS);
 
     // Start polling
-    this.timer=setInterval(()=>this.poll(),C.pollMs);
+    this.startPoll();
     this.poll();
+  },
+
+  startPoll(){
+    if(this.timer) clearInterval(this.timer);
+    this.timer=setInterval(()=>this.poll(), this.pollInterval);
+  },
+
+  adjustPoll(status){
+    let target;
+    if(status==='building'||status==='working') target=C.pollFastMs;
+    else target=C.pollMs;
+    if(target!==this.pollInterval){
+      this.pollInterval=target;
+      this.startPoll();
+    }
   },
 
   async poll(force){
@@ -630,9 +737,18 @@ const App = {
       if(!force&&st.ts&&st.ts<=S.lastTs) return;
       S.lastTs=st.ts||0;
 
+      // Clear reconnect banner on success
+      if(this.errCount>0){
+        this.errCount=0;
+        document.getElementById('reconnBar').classList.remove('on');
+        this.pollInterval=C.pollMs;
+        this.startPoll();
+      }
+
       // Status
       if(st.status){
         UI.setStatus(st.status, st.statusText||st.status);
+        this.adjustPoll(st.status);
         if(st.status==='working'||st.status==='building'){ UI.typing(true); }
         else{ UI.typing(false); }
       }
@@ -653,9 +769,18 @@ const App = {
         if(hasNew){UI.renderMsgs();UI.saveMsgs();}
       }
 
-      // Preview
-      if(st.previewHtml){ S.previewHtml=st.previewHtml; UI.showPreview(st.previewHtml); }
-      else if(st.previewUrl){ S.previewUrl=st.previewUrl; UI.showPreview(null,C.previewBase+st.previewUrl); }
+      // Preview — prefer previewHtml (srcdoc, instant) over previewUrl (cached)
+      if(st.previewHtml){
+        if(st.previewHtml!==S.previewHtml){
+          S.previewHtml=st.previewHtml;
+          UI.showPreview(st.previewHtml);
+        }
+      } else if(st.previewUrl){
+        if(st.previewUrl!==S.previewUrl){
+          S.previewUrl=st.previewUrl;
+          UI.showPreview(null,C.previewBase+st.previewUrl);
+        }
+      }
 
       // Files
       if(st.files&&Object.keys(st.files).length){
@@ -674,15 +799,28 @@ const App = {
         S.actions=st.suggestedActions; UI.renderActions(S.actions);
       }
 
-    }catch(e){}
+    }catch(e){
+      this.errCount++;
+      if(this.errCount>=3){
+        document.getElementById('reconnBar').classList.add('on');
+      }
+      // Exponential backoff on errors
+      const backoff=Math.min(C.pollMs * Math.pow(1.5, this.errCount), C.pollMaxMs);
+      if(backoff!==this.pollInterval){
+        this.pollInterval=backoff;
+        this.startPoll();
+      }
+    }
   },
 
   async send(){
     const el=document.getElementById('chatIn'), text=el.value.trim();
-    if(!text) return;
+    if(!text||this.sending) return;
     const msg=UI.addMsg('user',text);
     el.value=''; el.style.height='auto';
     if(S.readOnly){toast('Read-only mode \u2014 add token in Settings','\u{1F512}');return;}
+    this.sending=true;
+    const btn=document.getElementById('sendBtn'); btn.disabled=true;
     try{
       UI.typing(true); UI.setStatus('working','sending');
       let data={v:1,messages:[],lastProcessed:null}, sha=null;
@@ -690,7 +828,11 @@ const App = {
       data.messages.push({id:msg.id,content:text,ts:msg.ts}); data.ts=Date.now();
       await GH.put(C.inputFile,JSON.stringify(data,null,2),'user: '+text.slice(0,50),sha);
       UI.setStatus('working','waiting for claude'); toast('Message sent','\u{1F680}');
+      // Speed up polling after sending
+      this.pollInterval=C.pollFastMs;
+      this.startPoll();
     }catch(e){ UI.typing(false); UI.setStatus('idle','ready'); toast('Send failed: '+e.message,'\u274C'); }
+    this.sending=false; btn.disabled=false;
   },
 
   sendAction(a){
@@ -710,11 +852,37 @@ const App = {
   openFile(path,quiet){
     S.activeFile=path; UI.renderCode(path);
     if(!quiet) UI.switchPanel(document.querySelector('[data-panel="code"]'));
+  },
+
+  toggleFullscreen(){
+    const area=document.getElementById('previewArea'), panel=document.getElementById('bottomPanel');
+    this.isFullscreen=!this.isFullscreen;
+    area.classList.toggle('fullscreen',this.isFullscreen);
+    panel.classList.toggle('collapsed',this.isFullscreen);
+  },
+
+  refreshPreview(){
+    const frame=document.getElementById('previewFrame');
+    frame.classList.remove('loaded');
+    frame.onload=()=>frame.classList.add('loaded');
+    if(S.previewHtml){ frame.srcdoc=''; requestAnimationFrame(()=>{frame.srcdoc=S.previewHtml;}); }
+    else if(S.previewUrl){ frame.src=C.previewBase+S.previewUrl+'?_t='+Date.now(); }
+    else toast('No preview to refresh','\u{1F6AB}');
   }
 };
 
 // ===== KEYBOARD =====
 document.getElementById('chatIn').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();App.send();}});
+
+// ===== VISIBILITY API — pause/resume polling =====
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    if(App.timer){clearInterval(App.timer);App.timer=null;}
+  } else {
+    App.poll(true);
+    App.startPoll();
+  }
+});
 
 // ===== BOOT =====
 (function(){
