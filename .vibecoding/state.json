@@ -1,8 +1,8 @@
 {
   "v": 2,
-  "ts": 1770440039610,
+  "ts": 1770501083939,
   "status": "idle",
-  "statusText": "ready",
+  "statusText": "watching",
   "messages": [
     {
       "id": "msg_1770433504887",
@@ -51,6 +51,12 @@
       "role": "assistant",
       "content": "Your **10/10 Cannabis** website is live in the preview! Here's what I built:\n\n- **Premium brand identity** — Playfair Display serif + gold gradient palette\n- **Hero section** — Big 10/10 logo with animated gold shimmer on the slash\n- **3 Featured Strains** — Golden Hour (Sativa), Midnight Velvet (Indica), Perfect Ten (Hybrid) with THC/CBD info and pricing\n- **Brand story** — Italic quote section with gold accents\n- **Stats bar** — 10/10 Quality, 100% Organic, 50+ Strains, 24K+ Customers\n- **Why Choose Us** — 4 cards: Craft Grown, Lab Tested, Curated Selection, Sustainably Sourced\n- **CTA + Footer** with age verification note\n- **Fully responsive** for mobile\n\nTap the expand icon to see it fullscreen! Want me to change anything?",
       "ts": 1770440039610
+    },
+    {
+      "id": "claude_1770501083",
+      "role": "assistant",
+      "content": "Auto-watcher is now active! From now on, just send messages here and I'll pick them up and respond automatically. No need to go back to the terminal.\n\nTry it — type what you want to build or tap one of the action buttons. I'll start building and you'll see the live preview update.",
+      "ts": 1770501083939
     }
   ],
   "files": {
