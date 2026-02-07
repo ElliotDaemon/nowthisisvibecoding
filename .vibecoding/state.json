@@ -1,6 +1,6 @@
 {
-  "v": 1,
-  "ts": 1770433700000,
+  "v": 2,
+  "ts": 1770434200000,
   "status": "idle",
   "statusText": "ready",
   "messages": [
@@ -13,11 +13,15 @@
     {
       "id": "claude_1",
       "role": "assistant",
-      "content": "Yes! The connection is working perfectly. I can see your messages in real-time.\n\nYou're now running a full **vibecoding** setup — type anything you want to build and I'll start coding it right here. You'll see:\n\n- **Code** tab: live source code as I write it\n- **Terminal** tab: build output and test results\n- **Files** tab: browse everything in the project\n\nSo — what are we building? Go wild.",
-      "ts": 1770433550000
+      "content": "Yes! Connection is live.\n\nI just shipped a huge upgrade -- the app now has:\n\n- **Live Preview** area at the top that shows what we're building in real-time\n- **Quick action buttons** -- tap to instantly start a project type\n- **Build animation** with code rain effect and progress bar\n- **Instant preview** via iframe (no page reload needed)\n\nTap one of the quick actions or describe what you want to build. You'll see it appear in the preview above as I code it.",
+      "ts": 1770434200000
     }
   ],
   "files": {},
   "terminal": [],
-  "activeFile": null
+  "activeFile": null,
+  "previewHtml": null,
+  "previewUrl": null,
+  "buildProgress": null,
+  "suggestedActions": null
 }
