@@ -1,9 +1,16 @@
 {
   "v": 1,
-  "ts": 0,
+  "ts": 1770433550000,
   "status": "idle",
   "statusText": "ready",
-  "messages": [],
+  "messages": [
+    {
+      "id": "claude_1",
+      "role": "assistant",
+      "content": "Yes! The connection is working perfectly. I can see your messages in real-time.\n\nYou're now running a full **vibecoding** setup — type anything you want to build and I'll start coding it right here. You'll see:\n\n- **Code** tab: live source code as I write it\n- **Terminal** tab: build output and test results\n- **Files** tab: browse everything in the project\n\nSo — what are we building? Go wild.",
+      "ts": 1770433550000
+    }
+  ],
   "files": {},
   "terminal": [],
   "activeFile": null
