@@ -75,6 +75,9 @@ def main():
                    help='Add terminal line: --add-terminal info "Starting build"')
     p.add_argument('--clear-terminal', action='store_true')
     p.add_argument('--actions', help='JSON array of suggested actions')
+    p.add_argument('--questionnaire', help='JSON object for questionnaire (intake/checkpoint)')
+    p.add_argument('--clear-questionnaire', action='store_true', help='Clear questionnaire')
+    p.add_argument('--brief', help='JSON object for brief review on current questionnaire')
     p.add_argument('--commit-msg', default='update state', help='Git commit message')
     args = p.parse_args()
 
@@ -137,6 +140,17 @@ def main():
 
     if args.actions:
         state['suggestedActions'] = json.loads(args.actions)
+
+    if args.questionnaire:
+        state['questionnaire'] = json.loads(args.questionnaire)
+
+    if args.clear_questionnaire:
+        state['questionnaire'] = None
+
+    if args.brief:
+        if state.get('questionnaire'):
+            state['questionnaire']['phase'] = 'review'
+            state['questionnaire']['brief'] = json.loads(args.brief)
 
     write_state(state, args.commit_msg)
 

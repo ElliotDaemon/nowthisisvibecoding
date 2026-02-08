@@ -50,12 +50,21 @@ def check_for_messages():
 
     last_ts = get_last_processed()
     new_msgs = []
+    new_responses = []
 
     for msg in data.get('messages', []):
         if msg.get('ts', 0) > last_ts:
             new_msgs.append(msg)
 
-    return new_msgs
+    for resp in data.get('responses', []):
+        if resp.get('ts', 0) > last_ts:
+            new_responses.append(resp)
+
+    brief_action = data.get('briefAction')
+    if brief_action and brief_action.get('ts', 0) > last_ts:
+        new_responses.append({'type': 'briefAction', **brief_action})
+
+    return new_msgs, new_responses
 
 
 def write_pending(messages):
@@ -89,18 +98,27 @@ def main():
 
     while True:
         try:
-            new_msgs = check_for_messages()
+            new_msgs, new_responses = check_for_messages()
+            all_items = []
             if new_msgs:
                 for m in new_msgs:
-                    ts = m.get('ts', 0)
                     content = m.get('content', '')
                     print(f"\n[NEW MESSAGE] {content}")
                     sys.stdout.flush()
+                all_items.extend(new_msgs)
 
-                write_pending(new_msgs)
+            if new_responses:
+                for r in new_responses:
+                    if r.get('type') == 'briefAction':
+                        print(f"\n[BRIEF ACTION] {r.get('action', '')}")
+                    else:
+                        print(f"\n[RESPONSE] {r.get('questionId', '')}: {r.get('value', [])}")
+                    sys.stdout.flush()
+                all_items.extend(new_responses)
 
-                # Update last processed to latest
-                latest = max(m.get('ts', 0) for m in new_msgs)
+            if all_items:
+                write_pending(all_items)
+                latest = max(item.get('ts', 0) for item in all_items)
                 set_last_processed(latest)
 
         except Exception as e:
