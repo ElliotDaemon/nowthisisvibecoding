@@ -172,6 +172,47 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);colo
 .qa:active{transform:scale(.94);border-color:var(--ac);background:var(--acg)}
 .qa.hi{background:rgba(139,92,246,.08);border-color:rgba(139,92,246,.2);color:var(--ac2)}
 
+/* ===== QUESTIONNAIRE ===== */
+.qw{position:absolute;inset:0;display:none;flex-direction:column;background:var(--bg);z-index:15;overflow:hidden}
+.qw.on{display:flex}
+.q-prog{height:3px;background:var(--s2);flex-shrink:0;overflow:hidden}
+.q-prog-fill{height:100%;background:var(--grad);transition:width .5s var(--snap);border-radius:0 3px 3px 0}
+.qc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;text-align:center;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.qc>*{animation:qIn .4s var(--snap)}
+@keyframes qIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.q-phase{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--ac2);margin-bottom:6px}
+.q-ttl{font-family:'Space Grotesk',sans-serif;font-size:clamp(18px,5vw,26px);font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.q-desc{font-size:13px;color:var(--t2);line-height:1.5;max-width:300px;margin:0 auto 20px}
+.q-num{font-size:11px;color:var(--t3);margin-bottom:16px}
+.q-opts{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px}
+.q-opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;border:1.5px solid var(--b1);background:var(--s1);cursor:pointer;transition:all .2s var(--smooth);text-align:left}
+.q-opt:active{transform:scale(.97)}
+.q-opt.sel{border-color:var(--ac);background:rgba(139,92,246,.08);box-shadow:0 0 0 3px var(--acg)}
+.q-opt-ic{width:34px;height:34px;border-radius:10px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .2s}
+.q-opt.sel .q-opt-ic{background:var(--ac)}
+.q-opt-t{flex:1}.q-opt-l{font-size:13px;font-weight:600}.q-opt-d{font-size:11px;color:var(--t3);margin-top:1px;line-height:1.4}
+.q-opt-sw{width:18px;height:18px;border-radius:50%;flex-shrink:0;border:2px solid rgba(255,255,255,.1)}
+.q-opt-ck{width:18px;height:18px;border-radius:5px;border:2px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.q-opt.sel .q-opt-ck{border-color:var(--ac);background:var(--ac)}
+.q-opt.sel .q-opt-ck::after{content:'';width:5px;height:9px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+.q-tin{width:100%;max-width:380px;padding:14px;border-radius:12px;border:1.5px solid var(--b1);background:var(--s1);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:500;text-align:center;outline:none;transition:border .25s,box-shadow .25s}
+.q-tin:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.q-tin::placeholder{color:var(--t3)}
+.q-next{padding:12px 36px;border-radius:12px;border:none;background:var(--ac);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:20px;transition:all .25s var(--smooth);box-shadow:0 2px 16px var(--acg);opacity:0;transform:translateY(6px);pointer-events:none}
+.q-next.rdy{opacity:1;transform:translateY(0);pointer-events:auto}
+.q-next:active{transform:scale(.96)}
+.q-brief{width:100%;max-width:380px;border-radius:14px;border:1px solid var(--b1);background:var(--s1);padding:20px;text-align:left}
+.q-brief-t{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px}
+.q-brief-s{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:16px}
+.q-brief-items{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.q-bi{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-radius:8px;background:var(--s2)}
+.q-bi-l{font-size:11px;color:var(--t3);font-weight:500}.q-bi-v{font-size:12px;font-weight:600;color:var(--ac3);text-align:right;max-width:55%}
+.q-brief-btns{display:flex;gap:8px}
+.q-brief-go{flex:2;padding:12px;border-radius:10px;border:none;background:var(--ac);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 16px var(--acg)}
+.q-brief-go:active{transform:scale(.97)}
+.q-brief-rev{flex:1;padding:12px;border-radius:10px;border:1px solid var(--b1);background:var(--s2);color:var(--t2);font-family:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.q-brief-rev:active{transform:scale(.97)}
+
 /* Input */
 .cin-wrap{padding:10px 12px;padding-bottom:calc(10px + var(--safe-b));border-top:1px solid var(--b1);background:var(--s1);flex-shrink:0}
 .cin-row{display:flex;gap:8px;align-items:flex-end}
@@ -355,6 +396,10 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);colo
       </div>
       <div class="pbody">
         <div class="pv on" id="pvChat">
+          <div class="qw" id="qWrap">
+            <div class="q-prog"><div class="q-prog-fill" id="qProgFill"></div></div>
+            <div class="qc" id="qCard"></div>
+          </div>
           <div class="qas" id="qas"></div>
           <div class="msgs" id="msgs"></div>
           <div class="typing" id="typing"><i></i><i></i><i></i></div>
@@ -457,7 +502,7 @@ const GH={
 };
 
 // ===== State =====
-const S={messages:[],files:{},terminal:[],status:'idle',statusText:'',activeFile:null,lastTs:0,connected:false,readOnly:false,previewHtml:null,previewUrl:null,actions:[],hasPreview:false,user:null,view:'vibe'};
+const S={messages:[],files:{},terminal:[],status:'idle',statusText:'',activeFile:null,lastTs:0,connected:false,readOnly:false,previewHtml:null,previewUrl:null,actions:[],hasPreview:false,user:null,view:'vibe',questionnaire:null};
 
 const ACTIONS=[
   {id:'landing',label:'Landing Page',icon:'\u{1F680}',primary:true},
@@ -520,7 +565,7 @@ const UI={
   openSettings(){document.getElementById('setBg').classList.add('open');document.getElementById('sgPat').value=localStorage.getItem('vc_pat')?'\u2022\u2022\u2022\u2022\u2022\u2022':'';if(localStorage.getItem('vc_pat')&&S.user)document.getElementById('sgMagic').value=Auth.magicUrl();this.updSg()},
   closeSettings(){document.getElementById('setBg').classList.remove('open')},
   updSg(){const d=document.getElementById('sgDot'),m=document.getElementById('sgStat');if(S.connected){d.style.background='var(--green)';m.textContent=S.readOnly?'Connected (read-only)':'Connected'}else{d.style.background='var(--t3)';m.textContent='Not connected'}},
-  setStatus(s,t){const dot=document.getElementById('sDot'),lbl=document.getElementById('sTxt');dot.className='d';if(s==='idle'||s==='connected'){dot.classList.add('ok');lbl.textContent=t||'ready'}else if(s==='working'||s==='building'){dot.classList.add('busy');lbl.textContent=t||'building'}else{lbl.textContent=t||s}},
+  setStatus(s,t){const dot=document.getElementById('sDot'),lbl=document.getElementById('sTxt');dot.className='d';if(s==='idle'||s==='connected'){dot.classList.add('ok');lbl.textContent=t||'ready'}else if(s==='working'||s==='building'){dot.classList.add('busy');lbl.textContent=t||'building'}else if(s==='intake'){dot.classList.add('busy');lbl.textContent=t||'intake'}else if(s==='checkpoint'){dot.classList.add('busy');lbl.textContent=t||'review'}else{lbl.textContent=t||s}},
   renderMsgs(){const c=document.getElementById('msgs');c.innerHTML='';S.messages.forEach(m=>{const d=document.createElement('div');d.className='m '+(m.role==='assistant'?'a':'u');d.innerHTML=`<div class="bbl">${m.role==='assistant'?this.md(m.content):this.esc(m.content)}</div><div class="m-ts">${this.ago(m.ts)}</div>`;c.appendChild(d)});c.scrollTop=c.scrollHeight},
   addMsg(role,content){const m={id:'m_'+Date.now(),role,content,ts:Date.now()};S.messages.push(m);this.saveMsgs();const c=document.getElementById('msgs'),d=document.createElement('div');d.className='m '+(role==='assistant'?'a':'u');d.innerHTML=`<div class="bbl">${role==='assistant'?this.md(content):this.esc(content)}</div><div class="m-ts">now</div>`;c.appendChild(d);requestAnimationFrame(()=>c.scrollTop=c.scrollHeight);return m},
   typing(on){document.getElementById('typing').classList.toggle('on',on)},
@@ -554,6 +599,130 @@ const Cfg={
   logout(){localStorage.clear();location.reload()}
 };
 
+// ===== Questionnaire UI =====
+const QUI={
+  active:false,data:null,answers:{},idx:0,
+  update(q){
+    if(!q){this.hide();return}
+    this.data=q;this.active=true;this.loadAnswers();
+    if(q.phase==='review'&&q.brief)this.showBrief(q.brief);
+    else{
+      this.idx=q.currentIndex||0;
+      while(this.idx<q.questions.length&&this.answers[q.questions[this.idx].id])this.idx++;
+      if(this.idx>=q.questions.length)this.showWaiting();
+      else this.showQ(this.idx);
+    }
+    this.show();
+  },
+  show(){
+    document.getElementById('qWrap').classList.add('on');
+    document.getElementById('qas').style.display='none';
+    document.getElementById('msgs').style.display='none';
+    document.querySelector('.cin-wrap').style.display='none';
+    document.getElementById('typing').style.display='none';
+  },
+  hide(){
+    this.active=false;
+    document.getElementById('qWrap').classList.remove('on');
+    document.getElementById('qas').style.display='';
+    document.getElementById('msgs').style.display='';
+    document.querySelector('.cin-wrap').style.display='';
+    document.getElementById('typing').style.display='';
+  },
+  showQ(idx){
+    const q=this.data.questions[idx],total=this.data.totalQuestions||this.data.questions.length;
+    document.getElementById('qProgFill').style.width=(idx/total*100)+'%';
+    const card=document.getElementById('qCard');
+    const phase=this.data.phase==='checkpoint'?'Checkpoint':'Getting the brief';
+    let h=`<div class="q-phase">${phase}</div><div class="q-ttl">${UI.esc(q.question)}</div>`;
+    if(q.description)h+=`<div class="q-desc">${UI.esc(q.description)}</div>`;
+    h+=`<div class="q-num">${idx+1} of ${total}</div>`;
+    if(q.type==='single'||q.type==='multi'){
+      h+='<div class="q-opts">';
+      q.options.forEach(o=>{
+        const sel=(this.answers[q.id]||[]).includes(o.id)?' sel':'';
+        const sw=o.color?`<div class="q-opt-sw" style="background:${o.color}"></div>`:'';
+        const ck=q.type==='multi'?'<div class="q-opt-ck"></div>':'';
+        h+=`<div class="q-opt${sel}" data-qid="${q.id}" data-oid="${o.id}" onclick="QUI.sel('${q.id}','${o.id}','${q.type}')">
+          <div class="q-opt-ic">${o.icon||''}</div>
+          <div class="q-opt-t"><div class="q-opt-l">${UI.esc(o.label)}</div>${o.desc?`<div class="q-opt-d">${UI.esc(o.desc)}</div>`:''}</div>
+          ${sw}${ck}</div>`;
+      });
+      h+='</div>';
+      if(q.type==='multi'){const a=this.answers[q.id]||[],min=q.min||1;h+=`<button class="q-next${a.length>=min?' rdy':''}" onclick="QUI.advance()">Continue</button>`}
+    }else if(q.type==='text'){
+      const v=(this.answers[q.id]||[''])[0];
+      h+=`<input class="q-tin" id="qTIn" placeholder="${UI.esc(q.placeholder||'Type here...')}" value="${UI.esc(v)}" oninput="QUI.txt('${q.id}',this.value)">`;
+      h+=`<button class="q-next${v?' rdy':''}" onclick="QUI.advance()">Continue</button>`;
+    }
+    card.innerHTML=h;
+    if(q.type==='text')setTimeout(()=>document.getElementById('qTIn')?.focus(),100);
+  },
+  sel(qId,oId,type){
+    if(type==='single'){
+      this.answers[qId]=[oId];this.saveAnswers();this.sendResp(qId,[oId]);
+      document.querySelectorAll(`[data-qid="${qId}"]`).forEach(el=>el.classList.toggle('sel',el.dataset.oid===oId));
+      setTimeout(()=>this.advance(),300);
+    }else{
+      if(!this.answers[qId])this.answers[qId]=[];
+      const a=this.answers[qId],i=a.indexOf(oId);
+      if(i>=0)a.splice(i,1);else a.push(oId);
+      this.saveAnswers();
+      document.querySelectorAll(`[data-qid="${qId}"]`).forEach(el=>el.classList.toggle('sel',a.includes(el.dataset.oid)));
+      const q=this.data.questions.find(x=>x.id===qId),min=q?.min||1;
+      const btn=document.querySelector('.q-next');
+      if(btn)btn.classList.toggle('rdy',a.length>=min);
+    }
+  },
+  txt(qId,v){this.answers[qId]=[v];this.saveAnswers();const b=document.querySelector('.q-next');if(b)b.classList.toggle('rdy',v.trim().length>0)},
+  advance(){
+    const q=this.data.questions[this.idx],a=this.answers[q.id];
+    if(!a||!a.length)return;
+    if(q.type!=='single')this.sendResp(q.id,a);
+    this.idx++;
+    if(this.idx>=this.data.questions.length){this.showWaiting();document.getElementById('qProgFill').style.width='100%'}
+    else this.showQ(this.idx);
+  },
+  showWaiting(){
+    document.getElementById('qProgFill').style.width='100%';
+    document.getElementById('qCard').innerHTML=`<div class="q-phase">Processing</div><div class="q-ttl">Preparing your build plan...</div><div class="q-desc">The agents are reviewing your brief.</div><div class="bov-ring" style="margin:20px auto;width:40px;height:40px"></div>`;
+  },
+  showBrief(brief){
+    document.getElementById('qProgFill').style.width='100%';
+    let items='';(brief.items||[]).forEach(i=>{items+=`<div class="q-bi"><span class="q-bi-l">${UI.esc(i.label)}</span><span class="q-bi-v">${UI.esc(i.value)}</span></div>`});
+    document.getElementById('qCard').innerHTML=`<div class="q-phase">Review your brief</div>
+      <div class="q-brief"><div class="q-brief-t">${UI.esc(this.data.title||'Your Project')}</div>
+      <div class="q-brief-s">${UI.esc(brief.summary)}</div>
+      <div class="q-brief-items">${items}</div>
+      <div class="q-brief-btns"><button class="q-brief-go" onclick="QUI.briefAct('approve')">Approve & Build</button><button class="q-brief-rev" onclick="QUI.briefAct('revise')">Revise</button></div></div>`;
+  },
+  async briefAct(action){
+    try{
+      let data={v:2,messages:[],responses:[],briefAction:null},sha=null;
+      try{const ex=await GH.get(C.inputFile);if(ex){data=JSON.parse(ex.content);sha=ex.sha}}catch(e){}
+      data.briefAction={questionnaireId:this.data.id,action,ts:Date.now()};data.ts=Date.now();
+      await GH.put(C.inputFile,JSON.stringify(data,null,2),'brief: '+action,sha);
+      if(action==='approve'){this.hide();this.clearAnswers();toast('Brief approved — building!','\u{1F680}')}
+      else{this.idx=0;this.answers={};this.clearAnswers();this.showQ(0);toast("Let's revise",'\u270F\uFE0F')}
+    }catch(e){toast('Failed: '+e.message,'\u274C')}
+  },
+  async sendResp(qId,value){
+    try{
+      let data={v:2,messages:[],responses:[]},sha=null;
+      try{const ex=await GH.get(C.inputFile);if(ex){data=JSON.parse(ex.content);sha=ex.sha}}catch(e){}
+      if(!data.responses)data.responses=[];
+      const i=data.responses.findIndex(r=>r.questionnaireId===this.data.id&&r.questionId===qId);
+      const resp={questionnaireId:this.data.id,questionId:qId,value,ts:Date.now()};
+      if(i>=0)data.responses[i]=resp;else data.responses.push(resp);
+      data.ts=Date.now();
+      await GH.put(C.inputFile,JSON.stringify(data,null,2),'answer: '+qId,sha);
+    }catch(e){toast('Failed to save','\u274C')}
+  },
+  saveAnswers(){if(this.data)try{localStorage.setItem('vc_qa_'+this.data.id,JSON.stringify(this.answers))}catch(e){}},
+  loadAnswers(){if(this.data)try{const s=localStorage.getItem('vc_qa_'+this.data.id);this.answers=s?JSON.parse(s):{}}catch(e){this.answers={}}},
+  clearAnswers(){if(this.data)localStorage.removeItem('vc_qa_'+this.data.id);this.answers={}}
+};
+
 // ===== Code rain =====
 function initRain(){const el=document.getElementById('rain'),sn=['const app=','import{','function()','return<div>','useState(','async fn','let data=','export default','<Component','await fetch(','map(item=>','className=','onClick={','padding:12px','border-radius','flex:1'];for(let i=0;i<16;i++){const s=document.createElement('span');s.textContent=sn[Math.floor(Math.random()*sn.length)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(6+Math.random()*8)+'s';s.style.animationDelay=(-Math.random()*10)+'s';s.style.fontSize=(9+Math.random()*3)+'px';el.appendChild(s)}}
 
@@ -571,7 +740,7 @@ const App={
   },
 
   startPoll(){if(this.timer)clearInterval(this.timer);this.timer=setInterval(()=>this.poll(),this.pollInt)},
-  adjustPoll(s){let t=(s==='building'||s==='working')?C.pollFastMs:C.pollMs;if(t!==this.pollInt){this.pollInt=t;this.startPoll()}},
+  adjustPoll(s){let t=(s==='building'||s==='working'||s==='intake'||s==='checkpoint')?C.pollFastMs:C.pollMs;if(t!==this.pollInt){this.pollInt=t;this.startPoll()}},
 
   async poll(force){
     try{
@@ -587,6 +756,7 @@ const App={
       if(st.files&&Object.keys(st.files).length){S.files={...S.files,...st.files};UI.renderFiles();UI.badge('code');UI.badge('files');if(S.activeFile)UI.renderCode(S.activeFile);else{const f=Object.keys(S.files).sort()[0];if(f)this.openFile(f,true)}}
       if(st.terminal&&st.terminal.length){S.terminal=st.terminal;UI.renderTerm();UI.badge('term')}
       if(st.suggestedActions&&st.suggestedActions.length){S.actions=st.suggestedActions;UI.renderActions(S.actions)}
+      if(st.questionnaire){if(!S.questionnaire||st.questionnaire.id!==S.questionnaire?.id||st.questionnaire.phase!==S.questionnaire?.phase){S.questionnaire=st.questionnaire;QUI.update(st.questionnaire)}}else if(S.questionnaire){S.questionnaire=null;QUI.update(null)}
     }catch(e){this.errCt++;if(this.errCt>=3)document.getElementById('reconn').classList.add('on');const bo=Math.min(C.pollMs*Math.pow(1.5,this.errCt),C.pollMaxMs);if(bo!==this.pollInt){this.pollInt=bo;this.startPoll()}}
   },
 
