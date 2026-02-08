@@ -292,6 +292,15 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);colo
       <button class="a-btn primary" id="aConnBtn" onclick="Auth.connect()">Connect</button>
       <div class="a-msg" id="aMsg"></div>
     </div>
+    <!-- Step 3: Bookmark -->
+    <div class="auth-step" id="aStep2">
+      <div class="a-label">Save your magic link</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px">Bookmark this link so you never need to enter your token again. The token stays in the URL hash — it's never sent to any server.</p>
+      <input class="a-input" id="aMagic" readonly style="font-size:12px;font-family:'JetBrains Mono',monospace;cursor:pointer" onclick="this.select();document.execCommand('copy')">
+      <button class="a-btn primary" id="aCopyBtn" onclick="Auth.copyLink()">Copy Link</button>
+      <button class="a-btn secondary" onclick="Auth.enter()" style="margin-top:4px">Skip, just start vibing</button>
+      <div class="a-msg ok" style="display:block;margin-top:10px;font-size:11px;color:var(--text3)">Tip: On iPhone, tap Share → Add to Home Screen for an app-like experience</div>
+    </div>
   </div>
 </div>
 
@@ -399,6 +408,12 @@ html,body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);colo
       <div class="sg-row"><button class="sg-btn pri" onclick="Cfg.savePat()">Save</button><button class="sg-btn dan" onclick="Cfg.clearPat()">Clear</button></div>
     </div>
     <div class="sg">
+      <div class="sg-lbl">Magic Link</div>
+      <div class="sg-desc">Bookmark this URL to auto-login without re-entering your token.</div>
+      <input class="sg-in" id="sgMagic" readonly style="font-size:11px;cursor:pointer" onclick="this.select();document.execCommand('copy')">
+      <div class="sg-row"><button class="sg-btn pri" onclick="Cfg.copyMagic()">Copy Link</button></div>
+    </div>
+    <div class="sg">
       <div class="sg-lbl">Account</div>
       <div class="sg-desc" id="sgUser">Not signed in</div>
       <button class="sg-btn sec" onclick="Cfg.logout()">Sign Out</button>
@@ -450,15 +465,37 @@ const Auth={
       const can=await GH.canPush();
       localStorage.setItem('vc_pat',pat);S.connected=true;S.readOnly=!can;
       msg.className='a-msg ok';msg.textContent=can?'Connected!':'Connected (read-only)';
-      setTimeout(()=>Auth.enter(),500);
+      // Show bookmark step instead of entering directly
+      setTimeout(()=>{
+        document.getElementById('aStep1').classList.remove('active');
+        document.getElementById('aStep2').classList.add('active');
+        document.getElementById('aMagic').value=Auth.magicUrl();
+      },500);
     }catch(e){GH.token=null;msg.className='a-msg err';msg.textContent='Failed: '+e.message}
     btn.disabled=false;btn.textContent='Connect';
+  },
+  magicUrl(){
+    const base=location.origin+location.pathname;
+    return base+'#pat='+encodeURIComponent(localStorage.getItem('vc_pat'))+'&user='+encodeURIComponent(S.user);
+  },
+  copyLink(){
+    const el=document.getElementById('aMagic');el.select();
+    if(navigator.clipboard){navigator.clipboard.writeText(el.value).then(()=>{document.getElementById('aCopyBtn').textContent='Copied! Now bookmark it';setTimeout(()=>Auth.enter(),1200)})}
+    else{document.execCommand('copy');document.getElementById('aCopyBtn').textContent='Copied!';setTimeout(()=>Auth.enter(),1200)}
   },
   enter(){
     document.getElementById('authScreen').classList.remove('active');
     document.getElementById('mainApp').classList.add('active');
     document.getElementById('sgUser').textContent='Signed in as '+S.user;
     App.init();
+  },
+  // Parse hash params for auto-login
+  fromHash(){
+    const h=location.hash.slice(1);if(!h)return null;
+    const p=new URLSearchParams(h);
+    const pat=p.get('pat'),user=p.get('user');
+    if(pat&&user)return{pat,user};
+    return null;
   }
 };
 
@@ -471,7 +508,7 @@ const UI={
     document.getElementById('p'+el.dataset.p.charAt(0).toUpperCase()+el.dataset.p.slice(1)).classList.add('active');
   },
   grow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'},
-  openSettings(){document.getElementById('settingsBg').classList.add('open');document.getElementById('sgPat').value=localStorage.getItem('vc_pat')?'\u2022\u2022\u2022\u2022\u2022\u2022':'';UI.updSg()},
+  openSettings(){document.getElementById('settingsBg').classList.add('open');document.getElementById('sgPat').value=localStorage.getItem('vc_pat')?'\u2022\u2022\u2022\u2022\u2022\u2022':'';if(localStorage.getItem('vc_pat')&&S.user)document.getElementById('sgMagic').value=Auth.magicUrl();UI.updSg()},
   closeSettings(){document.getElementById('settingsBg').classList.remove('open')},
   updSg(){const d=document.getElementById('sgDot'),m=document.getElementById('sgStatus');if(S.connected){d.style.background='var(--green)';m.textContent=S.readOnly?'Connected (read-only)':'Connected'}else{d.style.background='var(--text3)';m.textContent='Not connected'}},
   setStatus(s,t){const dot=document.getElementById('sDot'),lbl=document.getElementById('sTxt');dot.className='dot';if(s==='idle'||s==='connected'){dot.classList.add('on');lbl.textContent=t||'ready'}else if(s==='working'||s==='building'){dot.classList.add('busy');lbl.textContent=t||'building'}else{lbl.textContent=t||s}},
@@ -502,6 +539,7 @@ function toast(msg,icon='\u{1F4AC}'){const c=document.getElementById('toasts'),e
 // Config / Settings
 const Cfg={
   async savePat(){const v=document.getElementById('sgPat').value.trim();if(!v||v.startsWith('\u2022'))return;GH.token=v;const can=await GH.canPush();localStorage.setItem('vc_pat',v);S.connected=true;S.readOnly=!can;toast(can?'Connected':'Read-only','\u2705');UI.updSg()},
+  copyMagic(){const el=document.getElementById('sgMagic');el.select();if(navigator.clipboard)navigator.clipboard.writeText(el.value);else document.execCommand('copy');toast('Magic link copied!','\u{1F517}')},
   clearPat(){localStorage.removeItem('vc_pat');GH.token=null;S.connected=false;S.readOnly=true;document.getElementById('sgPat').value='';toast('Token cleared');UI.updSg()},
   clearChat(){localStorage.removeItem('vc_msgs');S.messages=[];UI.renderMsgs();toast('Chat cleared')},
   logout(){localStorage.clear();location.reload()}
@@ -592,8 +630,16 @@ document.getElementById('chatIn').addEventListener('keydown',e=>{if(e.key==='Ent
 // Visibility
 document.addEventListener('visibilitychange',()=>{if(document.hidden){if(App.timer){clearInterval(App.timer);App.timer=null}}else{App.poll(true);App.startPoll()}});
 
-// Boot
+// Boot — check URL hash first, then localStorage
 (function(){
+  // 1. Try URL hash (magic link)
+  const hp=Auth.fromHash();
+  if(hp){
+    localStorage.setItem('vc_pat',hp.pat);
+    localStorage.setItem('vc_user',hp.user);
+    // Clean hash from URL bar (cosmetic, keeps token out of sight)
+    history.replaceState(null,'',location.pathname);
+  }
   const pat=localStorage.getItem('vc_pat');
   const user=localStorage.getItem('vc_user');
   if(pat&&user){
